@@ -74,7 +74,7 @@ func sendOtp(c *gin.Context){
 	c.Bind(&mobile)
 
 	fmt.Println("inside sendotp for mobile",mobile.MobileNumber)
-	resp, err := http.Get("https://control.msg91.com/api/sendotp.php?authkey=180002AmWlFwgKnBLe59e84c39&mobile="+mobile.MobileNumber)
+	resp, err := http.Get("https://control.msg91.com/api/sendotp.php?authkey=180002AmWlFwgKnBLe59e84c39&mobile="+ mobile.MobileNumber +"&otp_length=6")
 	if err != nil {
 		// handle error
 		c.JSON(200,gin.H{"status":false,"result":err})
@@ -82,7 +82,7 @@ func sendOtp(c *gin.Context){
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(body))
-	c.JSON(200,gin.H{"status":true,"result":body})
+	c.JSON(200,gin.H{"status":true,"result":string(body)})
 }
 
 
@@ -101,7 +101,7 @@ func verifyOtp(c *gin.Context){
 	body, err := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(body))
 	if strings.Contains(string(body),"number_verified_successfully") {
-		c.JSON(200,gin.H{"status":true,"result":body})
+		c.JSON(200,gin.H{"status":true,"result":string(body)})
 	}else{
 		c.JSON(200,gin.H{"status":false,"result":err})
 	}
