@@ -100,7 +100,7 @@ func verifyOtp(c *gin.Context){
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(body))
-	if strings.Contains(string(body),"number_verified_successfully") {
+	if strings.Contains(string(body),"otp_verified") {
 		c.JSON(200,gin.H{"status":true,"result":string(body)})
 	}else{
 		c.JSON(200,gin.H{"status":false,"result":err})
